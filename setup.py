@@ -8,7 +8,7 @@ setup(
     url="https://github.com/daita-technologies/daita-python-library",
     author="DAITA Technologies",
     author_email="contact@daita.tech",
-    license="MIT License",
+    license="MIT",
     packages=find_packages(),
     install_requires=["tqdm", "requests"],
     entry_points={"console_scripts": ["daita = daita.daita:main"]},
