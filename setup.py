@@ -3,10 +3,10 @@ from setuptools import setup,find_packages
 
 setup(
     name='daita',
-    version='1.0.1',    
-    description='Upload Data To Daita Service',
+    version='0.0.1',    
+    description='DAITA\'s official easy-to-use Python library',
     url='https://github.com/daita-technologies/daita-python-library',
-    author='daita',
+    author='DAITA Technologies',
     author_email='contact@daita.tech',
     license='MIT License',
     packages=find_packages(),
@@ -20,7 +20,7 @@ setup(
         },
     classifiers=[
         'Development Status :: 1 - Planning',
-        'License :: OSI Approved :: BSD License',  
+        'License :: OSI Approved :: MIT License',  
         'Operating System :: POSIX :: Linux',        
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.8',
