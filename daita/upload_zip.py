@@ -32,11 +32,11 @@ def listCompressFiles(files):
     for index, file in enumerate(files):
         print(f"{index} : {file}")
     while True:
-        indexTmp = int(input("File Selected :"))
+        indexTmp = int(input("File selected:"))
         if indexTmp < len(files):
             break
         else:
-            print("Please choose again!")
+            print("Please select again!")
     return files[indexTmp]
 
 

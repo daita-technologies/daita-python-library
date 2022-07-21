@@ -50,11 +50,11 @@ def getPresignUrl(filesnames):
     }
     preSignUrlResp = requests.post(endpointPresignURL, json=payload)
     if preSignUrlResp.status_code != 200:
-        print("Something Wrong, please check again")
+        print("Something went wrong sorry, please check again")
         print(preSignUrlResp.text)
         footer()
     if preSignUrlResp.json()["error"] == True:
-        print("Something Wrong, please check again")
+        print("Something went wrong sorry, please check again")
         print(preSignUrlResp.json()["message"])
         footer()
 
@@ -95,7 +95,7 @@ def checkExistenceFile(filenames, daita_token):
 
     ResultcheckExistenceFile = RespcheckExistenceFile.json()
     if ResultcheckExistenceFile["error"] == True:
-        print(f"Something wrong with {ResultcheckExistenceFile['message']}")
+        print(f"Something went wrong with {ResultcheckExistenceFile['message']}")
         os._exit(1)
 
     if len(ResultcheckExistenceFile["data"]) == 0:
@@ -117,7 +117,7 @@ def check_size_image(filenames):
         filter(lambda x: int(os.path.getsize(x) / (1024**2)) <= 5, filenames)
     )
     if oldlen != len(newArr):
-        print("Some files are larger than 5 MB")
+        print("Some files are larger than 5MB!")
     return newArr
 
 
@@ -166,10 +166,11 @@ def dashboardImageFiles(filenames, token):
     oldlen = len(filenames)
     filenames = checkExistenceFile(filenames=filenames, daita_token=token)
     if len(filenames) == 0:
-        print("All name file is existed on this project, please check again!")
+        print("All name files are present in this project, please check them again!")
         footer()
     elif len(filenames) != oldlen:
-        print("Some files is existed on this project, now just others!")
+        print("Some files are already present in this project, please check them again!")
+        footer()
     filenames = check_size_image(filenames)
     if len(filenames) == 0:
         print("No file to upload")

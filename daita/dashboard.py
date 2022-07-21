@@ -78,12 +78,12 @@ def daitaLogo():
 
 
 def menuSelectypeFileToUpload():
-    print("Please choose mode:")
+    print("Please select mode:")
     print("0. Image file")
-    print("1. Zip file")
+    print("1. ZIP file")
     mode = None
     while True:
-        tempMode = int(input("Select : "))
+        tempMode = int(input("Select: "))
         if tempMode > 1:
             print("Invalid, please select again!")
         else:
@@ -104,12 +104,12 @@ def dashboard(daita_token, dir):
 
     # check input directory
     if not os.path.isdir(dir):
-        print("Please input directory path, Try it again!")
+        print("Please input your directory path; try it again!")
         footer()
     imagefiles, compressfiles = listAllFilesInDirectory(dir)
 
     if len(imagefiles) == 0 and len(compressfiles) == 0:
-        print("Folder is empty, Please choose again!")
+        print("Folder is empty; please select again!")
         footer()
 
     if len(imagefiles) > 0 and len(compressfiles) == 0:

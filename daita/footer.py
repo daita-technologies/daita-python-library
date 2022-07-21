@@ -1,6 +1,5 @@
 import os
 
-
 def footer():
     print(
         "If you experience any issues or have any questions, please contact us at contact@daita.tech"
