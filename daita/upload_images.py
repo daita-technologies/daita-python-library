@@ -9,10 +9,11 @@ import threading
 from tqdm import tqdm
 from footer import footer
 from itertools import chain, islice
+
 batch_size = 10
 ###### the endpoint for dev enviroment#######################################################################################
-endpointPresignURL = 'https://uflt5029de.execute-api.us-east-2.amazonaws.com/devdaitabeapp/cli/upload_project'
-endpointCheckExistenceFile = 'https://uflt5029de.execute-api.us-east-2.amazonaws.com/devdaitabeapp/cli/check_existence_file'
+endpointPresignURL = "https://uflt5029de.execute-api.us-east-2.amazonaws.com/devdaitabeapp/cli/upload_project"
+endpointCheckExistenceFile = "https://uflt5029de.execute-api.us-east-2.amazonaws.com/devdaitabeapp/cli/check_existence_file"
 #############################################################################################################################
 
 daita_token = None
@@ -29,7 +30,7 @@ def getPresignUrl(filesnames):
     filenamesList = []
     ls_object_info = []
     for it in filesnames:
-        with open(it, 'rb') as f:
+        with open(it, "rb") as f:
             hash = hashlib.md5(f.read()).hexdigest()
         temp = {
             "s3_key": "",
@@ -37,31 +38,32 @@ def getPresignUrl(filesnames):
             "hash": hash,
             "size": os.path.getsize(it),
             "is_ori": True,
-            "gen_id": ""
+            "gen_id": "",
         }
         filenamesList.append(os.path.basename(it))
         ls_object_info.append(temp)
 
     payload = {
-        'filenames': filenamesList,
-        'ls_object_info': ls_object_info,
-        'daita_token': daita_token
+        "filenames": filenamesList,
+        "ls_object_info": ls_object_info,
+        "daita_token": daita_token,
     }
     preSignUrlResp = requests.post(endpointPresignURL, json=payload)
     if preSignUrlResp.status_code != 200:
         print("Something Wrong, please check again")
         print(preSignUrlResp.text)
         footer()
-    if preSignUrlResp.json()['error'] == True:
+    if preSignUrlResp.json()["error"] == True:
         print("Something Wrong, please check again")
-        print(preSignUrlResp.json()['message'])
+        print(preSignUrlResp.json()["message"])
         footer()
 
-    preSignUrlResult = preSignUrlResp.json()['data']
+    preSignUrlResult = preSignUrlResp.json()["data"]
     for k, v in filenamesDict.items():
-        files = {'file': open(v, 'rb')}
+        files = {"file": open(v, "rb")}
         requests.post(
-            preSignUrlResult[k]['url'], data=preSignUrlResult[k]['fields'], files=files)
+            preSignUrlResult[k]["url"], data=preSignUrlResult[k]["fields"], files=files
+        )
 
 
 def generator(filenames):
@@ -87,26 +89,22 @@ def checkExistenceFile(filenames, daita_token):
     fullfile = {os.path.basename(it): it for it in filenames}
     basenamefilenames = [os.path.basename(it) for it in filenames]
 
-    payload = {
-        'ls_filename': basenamefilenames,
-        'daita_token': daita_token
-    }
+    payload = {"ls_filename": basenamefilenames, "daita_token": daita_token}
 
-    RespcheckExistenceFile = requests.post(
-        endpointCheckExistenceFile, json=payload)
+    RespcheckExistenceFile = requests.post(endpointCheckExistenceFile, json=payload)
 
     ResultcheckExistenceFile = RespcheckExistenceFile.json()
-    if ResultcheckExistenceFile['error'] == True:
+    if ResultcheckExistenceFile["error"] == True:
         print(f"Something wrong with {ResultcheckExistenceFile['message']}")
         os._exit(1)
 
-    if len(ResultcheckExistenceFile['data']) == 0:
+    if len(ResultcheckExistenceFile["data"]) == 0:
         return filenames
     newFileNotExist = []
 
-    for it in ResultcheckExistenceFile['data']:
-        if it['filename'] in fullfile:
-            del fullfile[it['filename']]
+    for it in ResultcheckExistenceFile["data"]:
+        if it["filename"] in fullfile:
+            del fullfile[it["filename"]]
 
     for k, v in fullfile.items():
         newFileNotExist.append(v)
@@ -115,8 +113,9 @@ def checkExistenceFile(filenames, daita_token):
 
 def check_size_image(filenames):
     oldlen = len(filenames)
-    newArr = list(filter(lambda x: int(
-        os.path.getsize(x)/(1024**2)) <= 5, filenames))
+    newArr = list(
+        filter(lambda x: int(os.path.getsize(x) / (1024**2)) <= 5, filenames)
+    )
     if oldlen != len(newArr):
         print("Some files are larger than 5 MB")
     return newArr
@@ -141,12 +140,13 @@ def upload_images(filenames, token):
     def listen(q):
         while True:
             combined.put((q, q.get()))
+
     t1 = threading.Thread(target=listen, args=(updateProcessbarQueue,))
     t1.daemon = True
     t1.start()
     workerQueue.join()
     numberFileTotal = len(filenames)
-    print(f'Total File: {numberFileTotal}')
+    print(f"Total File: {numberFileTotal}")
     print("STARTING UPLOAD")
     currentFileCompleted = 0
     numFileCompleted = 0
@@ -164,8 +164,7 @@ def upload_images(filenames, token):
 def dashboardImageFiles(filenames, token):
     ##################################
     oldlen = len(filenames)
-    filenames = checkExistenceFile(
-        filenames=filenames, daita_token=token)
+    filenames = checkExistenceFile(filenames=filenames, daita_token=token)
     if len(filenames) == 0:
         print("All name file is existed on this project, please check again!")
         footer()

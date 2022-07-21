@@ -13,11 +13,11 @@ checkDaitaTokenEndpoint = "https://uflt5029de.execute-api.us-east-2.amazonaws.co
 
 
 def validFileImage(filename):
-    return (os.path.splitext(filename)[1]).lower() in ['.jpeg', '.png', '.jpg']
+    return (os.path.splitext(filename)[1]).lower() in [".jpeg", ".png", ".jpg"]
 
 
 def validCompressfile(filename):
-    return (os.path.splitext(filename)[1]).lower() in ['.tar', '.gz', '.bz2', '.zip']
+    return (os.path.splitext(filename)[1]).lower() in [".tar", ".gz", ".bz2", ".zip"]
 
 
 def listImageFile(dir):
@@ -42,8 +42,8 @@ def checkDaitaToken(daita_token):
     params = {"daita_token": daita_token}
     response = requests.get(checkDaitaTokenEndpoint, params=params)
     data = response.json()
-    if data['error'] == True:
-        print(data['message'])
+    if data["error"] == True:
+        print(data["message"])
         os._exit(1)
 
 
@@ -55,18 +55,19 @@ def listAllFilesInDirectory(dir):
 
 def daitaLogo():
     def clear():
-        if name == 'nt':
-            _ = system('cls')
+        if name == "nt":
+            _ = system("cls")
         else:
-            _ = system('clear')
+            _ = system("clear")
+
     plankspace = " "
 
     def printLogo(plank, num):
-        with open("daita_logo_console.txt", 'r') as f:
+        with open("daita_logo_console.txt", "r") as f:
             data = f
             for it in data:
-                stringTemp = it.replace('\n', '')
-                print(plank*num+stringTemp)
+                stringTemp = it.replace("\n", "")
+                print(plank * num + stringTemp)
             time.sleep(0.5)
 
     clear()
