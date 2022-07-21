@@ -169,7 +169,9 @@ def dashboardImageFiles(filenames, token):
         print("All name files are present in this project, please check them again!")
         footer()
     elif len(filenames) != oldlen:
-        print("Some files are already present in this project, please check them again!")
+        print(
+            "Some files are already present in this project, please check them again!"
+        )
         footer()
     filenames = check_size_image(filenames)
     if len(filenames) == 0:
