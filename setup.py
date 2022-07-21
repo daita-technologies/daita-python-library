@@ -16,10 +16,10 @@ def load_description(path_dir=PATH_ROOT, filename="README.md"):
 name = "daita"
 description = "DAITA's official easy-to-use Python library."
 long_description = load_description()
-url = ("https://github.com/daita-technologies/daita-python-library",)
-author = ("DAITA Technologies",)
-author_email = ("contact@daita.tech",)
-license = ("MIT",)
+url = "https://github.com/daita-technologies/daita-python-library"
+author = "DAITA Technologies"
+author_email = "contact@daita.tech"
+license = "MIT"
 
 project_urls = {
     "Homepage": "https://daita.tech",
@@ -39,7 +39,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
 ]
 
-python_requires = (">=3.8",)
+python_requires = ">=3.8"
 install_requires = ["tqdm", "requests"]
 
 setup(
