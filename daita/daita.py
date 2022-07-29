@@ -3,8 +3,7 @@ import argparse
 
 
 parser = argparse.ArgumentParser(description="Optional app description")
-parser.add_argument("--dir", type=str,
-                    help="A required integer positional argument")
+parser.add_argument("--dir", type=str, help="A required integer positional argument")
 parser.add_argument(
     "--daita_token", type=str, help="A required integer positional argument"
 )

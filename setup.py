@@ -52,13 +52,11 @@ setup(
     license=license,
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=['daita'],
+    packages=["daita"],
     install_requires=install_requires,
     entry_points=entry_points,
     classifiers=classifiers,
     python_requires=python_requires,
     project_urls=project_urls,
-    package_data={
-        'daita': ['*', '.env.development']
-    }
+    package_data={"daita": ["*", ".env.development"]},
 )

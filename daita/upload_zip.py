@@ -2,15 +2,14 @@ import os
 import requests
 from daita.footer import footer
 
-endpointCreatePresignUrlSinglefile = os.environ['CREATE_PRESIGN_SIGNLE_URL']
-endpointUploadCompressfile = os.environ['UPLOAD_COMPRESS_FILE']
+endpointCreatePresignUrlSinglefile = os.environ["CREATE_PRESIGN_SIGNLE_URL"]
+endpointUploadCompressfile = os.environ["UPLOAD_COMPRESS_FILE"]
 
 
 def upload_compress_file(filename, daita_token):
     resp = requests.post(
         endpointCreatePresignUrlSinglefile,
-        json={"filename": os.path.basename(
-            filename), "daita_token": daita_token},
+        json={"filename": os.path.basename(filename), "daita_token": daita_token},
     )
     preSignUrlResult = resp.json()["data"]
     s3_uri = preSignUrlResult["s3_uri"]
@@ -21,8 +20,7 @@ def upload_compress_file(filename, daita_token):
         files=files,
     )
     responseTask = requests.post(
-        endpointUploadCompressfile, json={
-            "s3": s3_uri, "daita_token": daita_token}
+        endpointUploadCompressfile, json={"s3": s3_uri, "daita_token": daita_token}
     )
     data = responseTask.json()
     task_id = data["data"]["data"]["task_id"]
