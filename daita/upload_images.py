@@ -7,13 +7,13 @@ import sys
 import queue
 import threading
 from tqdm import tqdm
-from footer import footer
+from daita.footer import footer
 from itertools import chain, islice
 
 batch_size = 10
 ###### the endpoint for dev enviroment#######################################################################################
-endpointPresignURL = "https://uflt5029de.execute-api.us-east-2.amazonaws.com/devdaitabeapp/cli/upload_project"
-endpointCheckExistenceFile = "https://uflt5029de.execute-api.us-east-2.amazonaws.com/devdaitabeapp/cli/check_existence_file"
+endpointPresignURL = os.environ['PRESIGN_URL']
+endpointCheckExistenceFile = os.environ['CHECK_EXISTENCE_FILE']
 #############################################################################################################################
 
 daita_token = None
@@ -91,11 +91,13 @@ def checkExistenceFile(filenames, daita_token):
 
     payload = {"ls_filename": basenamefilenames, "daita_token": daita_token}
 
-    RespcheckExistenceFile = requests.post(endpointCheckExistenceFile, json=payload)
+    RespcheckExistenceFile = requests.post(
+        endpointCheckExistenceFile, json=payload)
 
     ResultcheckExistenceFile = RespcheckExistenceFile.json()
     if ResultcheckExistenceFile["error"] == True:
-        print(f"Something went wrong with {ResultcheckExistenceFile['message']}")
+        print(
+            f"Something went wrong with {ResultcheckExistenceFile['message']}")
         os._exit(1)
 
     if len(ResultcheckExistenceFile["data"]) == 0:

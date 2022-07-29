@@ -1,15 +1,14 @@
-from ast import Pass
 import os
 import glob
 import requests
 import time
 from os import system, name
-from upload_images import dashboardImageFiles
-from upload_zip import dashboardCompressFiles
-from footer import footer
-from urllib.parse import urlencode
+from daita.load_env import *
+from daita.upload_images import dashboardImageFiles
+from daita.upload_zip import dashboardCompressFiles
+from daita.footer import footer
 
-checkDaitaTokenEndpoint = "https://uflt5029de.execute-api.us-east-2.amazonaws.com/devdaitabeapp/cli/check_daita_token"
+checkDaitaTokenEndpoint = os.environ['DAITA_TOKEN']
 
 
 def validFileImage(filename):
@@ -63,7 +62,9 @@ def daitaLogo():
     plankspace = " "
 
     def printLogo(plank, num):
-        with open("daita_logo_console.txt", "r") as f:
+        pwd = os.path.dirname(os.path.abspath(__file__))
+        logofile = os.path.join(pwd, "daita_logo_console.txt")
+        with open(logofile, "r") as f:
             data = f
             for it in data:
                 stringTemp = it.replace("\n", "")
@@ -97,6 +98,7 @@ def dashboard(daita_token, dir):
     try:
         daitaLogo()
     except Exception as e:
+        print(e)
         pass
 
     # check token

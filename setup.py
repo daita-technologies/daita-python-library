@@ -40,7 +40,7 @@ classifiers = [
 ]
 
 python_requires = ">=3.8"
-install_requires = ["tqdm", "requests"]
+install_requires = ["tqdm", "requests", "python-dotenv"]
 
 setup(
     name=name,
@@ -52,10 +52,13 @@ setup(
     license=license,
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=find_packages(),
+    packages=['daita'],
     install_requires=install_requires,
     entry_points=entry_points,
     classifiers=classifiers,
     python_requires=python_requires,
     project_urls=project_urls,
+    package_data={
+        'daita': ['*', '.env.development']
+    }
 )
