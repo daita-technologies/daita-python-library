@@ -8,7 +8,7 @@ from daita.upload_images import dashboardImageFiles
 from daita.upload_zip import dashboardCompressFiles
 from daita.footer import footer
 
-checkDaitaTokenEndpoint = os.environ['DAITA_TOKEN']
+checkDaitaTokenEndpoint = os.environ["DAITA_TOKEN"]
 
 
 def validFileImage(filename):
