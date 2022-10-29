@@ -64,7 +64,7 @@ def daitaLogo():
     def printLogo(plank, num):
         pwd = os.path.dirname(os.path.abspath(__file__))
         logofile = os.path.join(pwd, "daita_logo_console.txt")
-        with open(logofile, "r") as f:
+        with open(logofile, "r", encoding="utf8") as f:
             data = f
             for it in data:
                 stringTemp = it.replace("\n", "")
