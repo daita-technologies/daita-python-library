@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## `Unreleased`
 
+### Added
+
+- Added [`Show progress bar for uploads`](https://github.com/daita-technologies/daita-python-library/issues/4)
+
 ## `0.0.6` – 29-10-2022
 
 ### Fixed
