@@ -34,6 +34,18 @@ jobs:
           build
           --user
 
+      - name: Make .env file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_DAITA_TOKEN: ${{ secrets.DAITA_TOKEN }}
+          envkey_PRESIGNED_URL: ${{ secrets.PRESIGNED_URL }}
+          envkey_CHECK_FILE_EXISTENCE: ${{ secrets.CHECK_FILE_EXISTENCE }}
+          envkey_CREATE_PRESIGNED_SINGLE_URL: ${{ secrets.CREATE_PRESIGNED_SINGLE_URL }}
+          envkey_UPLOAD_COMPRESSED_FILE: ${{ secrets.UPLOAD_COMPRESSED_FILE }}
+          directory: ./daita
+          file_name: .env
+          fail_on_empty: true
+
       - name: Build a binary wheel and a source tarball
         run: >-
           python -m
