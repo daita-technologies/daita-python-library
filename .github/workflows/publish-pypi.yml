@@ -25,7 +25,24 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           architecture: ${{ matrix.architecture }}
-      
+      - name: Generate file env
+        env:
+          DAITA_TOKEN: ${{ secrets.DAITA_TOKEN }}
+          PRESIGN_URL: ${{ secrets.PRESIGN_URL }}
+          CHECK_EXISTENCE_FILE: ${{ secrets.CHECK_EXISTENCE_FILE }}
+          CREATE_PRESIGN_SIGNLE_URL: ${{ secrets.CREATE_PRESIGN_SIGNLE_URL }}
+          UPLOAD_COMPRESS_FILE: ${{ secrets.UPLOAD_COMPRESS_FILE }}
+        run: |
+          echo "CREATE ENVIROMENT FILE"
+          touch .env
+          echo $DAITA_TOKEN > .env
+          echo $PRESIGN_URL > .env
+          echo $CHECK_EXISTENCE_FILE > .env
+          echo $CREATE_PRESIGN_SIGNLE_URL > .env
+          echo $CREATE_PRESIGN_SIGNLE_URL > .env
+          echo $UPLOAD_COMPRESS_FILE > .env
+          cat .env
+
       - name: Install pypa/build
         run: >-
           python -m
