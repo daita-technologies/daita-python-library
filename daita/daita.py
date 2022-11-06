@@ -21,7 +21,7 @@ class KeyboardInterrupt:
         print("Please wait for the processing to be completed, thank you.")
         self.signal_received = (sig, frame)
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self):
         signal.signal(signal.SIGINT, self.old_handler)
         if self.signal_received:
             self.old_handler(*self.signal_received)
