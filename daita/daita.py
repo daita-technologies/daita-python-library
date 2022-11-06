@@ -30,4 +30,3 @@ class KeyboardInterrupt:
 def main():
     with KeyboardInterrupt():
         dashboard(daita_token=daita_token, dir=dir)
-        pass

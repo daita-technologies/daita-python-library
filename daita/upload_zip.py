@@ -1,6 +1,5 @@
 import os
 import requests
-from daita.footer import footer
 
 endpointCreatePresignUrlSinglefile = os.environ["CREATE_PRESIGN_SIGNLE_URL"]
 endpointUploadCompressfile = os.environ["UPLOAD_COMPRESS_FILE"]
