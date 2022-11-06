@@ -38,9 +38,15 @@ jobs:
           envkey_PRESIGNED_URL: ${{ secrets.PRESIGNED_URL }}
           envkey_CHECK_FILE_EXISTENCE: ${{ secrets.CHECK_FILE_EXISTENCE }}
           envkey_CREATE_PRESIGNED_SINGLE_URL: ${{ secrets.CREATE_PRESIGNED_SINGLE_URL }}
-          envkey_UPLOAD_COMPRESSED_FILE: ${{ secrets.UPLOAD_COMPRESSED_FILE }}
+          envkey_UPLOAD_COMPRESSED_FILE: ${{ secrets.UPLOAD_COMPRESSED_FILEs }}
           file_name: .env
           fail_on_empty: true
 
       - name: Build a binary wheel and a source tarball
-        run: cat .env
+        run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
+          .
