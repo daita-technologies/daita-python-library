@@ -36,14 +36,15 @@ jobs:
           UPLOAD_COMPRESS_FILE: ${{ secrets.UPLOAD_COMPRESS_FILE }}
         run: |
           echo "CREATE ENVIROMENT FILE"
-          touch .env
-          echo $DAITA_TOKEN > .env
-          echo $PRESIGN_URL > .env
-          echo $CHECK_EXISTENCE_FILE > .env
-          echo $CREATE_PRESIGN_SIGNLE_URL > .env
-          echo $CREATE_PRESIGN_SIGNLE_URL > .env
-          echo $UPLOAD_COMPRESS_FILE > .env
-          cat .env      
+          export PATH_ENV_FILE =./daita/.env
+          touch $PATH_ENV_FILE
+          echo $DAITA_TOKEN > $PATH_ENV_FILE
+          echo $PRESIGN_URL > $PATH_ENV_FILE
+          echo $CHECK_EXISTENCE_FILE > $PATH_ENV_FILE
+          echo $CREATE_PRESIGN_SIGNLE_URL > $PATH_ENV_FILE
+          echo $CREATE_PRESIGN_SIGNLE_URL > $PATH_ENV_FILE
+          echo $UPLOAD_COMPRESS_FILE > $PATH_ENV_FILE
+          cat $PATH_ENV_FILE
       - name: Install pypa/build
         run: >-
           python -m
