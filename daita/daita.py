@@ -11,7 +11,7 @@ args = parser.parse_args()
 dir = args.dir
 daita_token = args.daita_token
 
-class DelayedKeyboardInterrupt:
+class KeyboardInterrupt:
 
     def __enter__(self):
         self.signal_received = False
@@ -26,6 +26,6 @@ class DelayedKeyboardInterrupt:
         if self.signal_received:
             self.old_handler(*self.signal_received)
 def main():
-    with DelayedKeyboardInterrupt():
+    with KeyboardInterrupt():
         dashboard(daita_token=daita_token, dir=dir)
         pass
