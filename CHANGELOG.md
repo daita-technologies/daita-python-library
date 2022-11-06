@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added [`Handling of unexpected interruptions during upload`](https://github.com/daita-technologies/daita-python-library/issues/6)
+- Added [`Handling of unexpected interruptions during upload`](https://github.com/daita-technologies/daita-python-library/issues/6).
 
 ## `0.0.6` – 29-10-2022
 
