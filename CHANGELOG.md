@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## `Unreleased`
 
-### Added
+### Fixed
 
-- Added [`generate enviroment file`](https://github.com/daita-technologies/daita-python-library/issues/5)
+- Fixed [`Remove .env.development file`](https://github.com/daita-technologies/daita-python-library/issues/5).
 
 ## `0.0.6` – 29-10-2022
 
