@@ -39,9 +39,9 @@ jobs:
           --wheel
           --outdir dist/
           .
-        # env:
-        #   DAITA_TOKEN: ${{ secrets.DAITA_TOKEN }}
-        #   PRESIGNED_URL: ${{ secrets.PRESIGNED_URL }}
-        #   CHECK_FILE_EXISTENCE: ${{ secrets.CHECK_FILE_EXISTENCE }}
-        #   CREATE_PRESIGNED_SINGLE_URL: ${{ secrets.CREATE_PRESIGNED_SINGLE_URL }}
-        #   UPLOAD_COMPRESSED_FILE: ${{ secrets.UPLOAD_COMPRESSED_FILE }}
+        env:
+          DAITA_TOKEN: ${{ secrets.DAITA_TOKEN }}
+          PRESIGNED_URL: ${{ secrets.PRESIGNED_URL }}
+          CHECK_FILE_EXISTENCE: ${{ secrets.CHECK_FILE_EXISTENCE }}
+          CREATE_PRESIGNED_SINGLE_URL: ${{ secrets.CREATE_PRESIGNED_SINGLE_URL }}
+          UPLOAD_COMPRESSED_FILE: ${{ secrets.UPLOAD_COMPRESSED_FILE }}
