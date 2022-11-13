@@ -1,4 +1,5 @@
 from daita.dashboard import dashboard
+from daita.footer import footer
 import argparse
 import signal
 
@@ -12,10 +13,20 @@ dir = args.dir
 daita_token = args.daita_token
 
 
-class KeyboardInterrupt:
-    def __enter__(self):
+class exception_handler:
+    def __init__(self,function):
+        self.function = function
         self.signal_received = False
         self.old_handler = signal.signal(signal.SIGINT, self.handler)
+    
+    def __call__(self):
+        self.wrapper_function()
+
+    def wrapper_function(self):
+        try:
+            self.function()
+        except Exception as e:
+            footer()
 
     def handler(self, sig, frame):
         print("Please wait for the processing to be completed, thank you.")
@@ -24,9 +35,8 @@ class KeyboardInterrupt:
     def __exit__(self):
         signal.signal(signal.SIGINT, self.old_handler)
         if self.signal_received:
-            self.old_handler(*self.signal_received)
+            self.old_handler(*self.signal_received)            
 
-
+@exception_handler
 def main():
-    with KeyboardInterrupt():
-        dashboard(daita_token=daita_token, dir=dir)
+    dashboard(daita_token=daita_token, dir=dir)
