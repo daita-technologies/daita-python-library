@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## `Unreleased`
 
+### Fixed
+
+- Fixed [`Remove .env.development file`](https://github.com/daita-technologies/daita-python-library/issues/5).
+
 ### Added
 
 - Added [`Show progress bar for uploads`](https://github.com/daita-technologies/daita-python-library/issues/4).
