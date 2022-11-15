@@ -19,4 +19,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- Fixed [`Unicode decode error`](https://github.com/daita-technologies/daita-python-library/issues/3).
+- Fixed [`Unicode decode error`](https://github.com/daita-technologies/daita-python-library/issues/3). ([#7](https://github.com/daita-technologies/daita-python-library/pull/7))
