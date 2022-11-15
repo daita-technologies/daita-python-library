@@ -1,5 +1,5 @@
 import os
-from setuptools import setup, find_packages
+from setuptools import setup
 
 import daita
 
@@ -40,7 +40,7 @@ classifiers = [
 ]
 
 python_requires = ">=3.8"
-install_requires = ["tqdm", "requests", "python-dotenv"]
+install_requires = ["python-dotenv", "requests", "tqdm"]
 
 setup(
     name=name,
@@ -58,5 +58,5 @@ setup(
     classifiers=classifiers,
     python_requires=python_requires,
     project_urls=project_urls,
-    package_data={"daita": ["*", ".env.development"]},
+    package_data={"daita": ["*", ".env"]},
 )

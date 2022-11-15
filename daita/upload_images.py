@@ -11,8 +11,8 @@ from itertools import chain, islice
 
 batch_size = 10
 ###### the endpoint for dev enviroment#######################################################################################
-endpointPresignURL = os.environ["PRESIGN_URL"]
-endpointCheckExistenceFile = os.environ["CHECK_EXISTENCE_FILE"]
+endpointPresignURL = os.environ["PRESIGNED_URL"]
+endpointCheckExistenceFile = os.environ["CHECK_FILE_EXISTENCE"]
 #############################################################################################################################
 
 daita_token = None
