@@ -14,11 +14,11 @@ daita_token = args.daita_token
 
 
 class exception_handler:
-    def __init__(self,function):
+    def __init__(self, function):
         self.function = function
         self.signal_received = False
         self.old_handler = signal.signal(signal.SIGINT, self.handler)
-    
+
     def __call__(self):
         self.wrapper_function()
 
@@ -35,7 +35,8 @@ class exception_handler:
     def __exit__(self):
         signal.signal(signal.SIGINT, self.old_handler)
         if self.signal_received:
-            self.old_handler(*self.signal_received)            
+            self.old_handler(*self.signal_received)
+
 
 @exception_handler
 def main():
