@@ -1,11 +1,12 @@
 import os
+import sys
 import requests
 import time
 from tqdm import tqdm
 from daita.footer import footer
 
-endpointCreatePresignUrlSinglefile = os.environ["CREATE_PRESIGN_SIGNLE_URL"]
-endpointUploadCompressfile = os.environ["UPLOAD_COMPRESS_FILE"]
+endpointCreatePresignUrlSinglefile = os.environ["CREATE_PRESIGNED_SINGLE_URL"]
+endpointUploadCompressfile = os.environ["UPLOAD_COMPRESSED_FILE"]
 endpointTaskProgress = os.environ["TASK_PROGRESS"]
 
 
@@ -22,7 +23,6 @@ def upload_compress_file(filename, daita_token):
         json={"filename": os.path.basename(filename), "daita_token": daita_token},
     )
     preSignUrlResult = resp.json()["data"]
-    s3_uri = preSignUrlResult["s3_uri"]
     files = {"file": open(filename, "rb")}
     requests.post(
         preSignUrlResult["presign_url"]["url"],
@@ -37,7 +37,7 @@ def upload_compress_file(filename, daita_token):
     id_token = data["id_token"]
 
     print(data["message"])
-    print(f"Check task id {task_id} on https://dev.daita.tech/my-tasks")
+    print(f"Check your task ID {task_id} on https://app.daita.tech/my-tasks.")
     responseTaskProgress = get_task(id_token, task_id)
     jsonTaskProgress = responseTaskProgress.json()
 
@@ -52,10 +52,9 @@ def upload_compress_file(filename, daita_token):
             jsonData = task.json()["body"]["data"]
             if jsonData["status"] == "ERROR":
                 print(
-                    "Currently your task is error, please check on https://dev.daita.tech/my-tasks"
+                    "Your task is currently broken, please check https://app.daita.tech/my-tasks."
                 )
                 footer()
-                break
             number_gen_images = int(jsonData["number_gen_images"])
             pbar.update(number_gen_images)
             if number_gen_images == number_finished:
