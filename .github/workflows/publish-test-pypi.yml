@@ -43,6 +43,7 @@ jobs:
           envkey_CREATE_PRESIGNED_SINGLE_URL: ${{ secrets.CREATE_PRESIGNED_SINGLE_URL }}
           envkey_UPLOAD_COMPRESSED_FILE: ${{ secrets.UPLOAD_COMPRESSED_FILE }}
           envkey_UPLOAD_TASK_PROGRESS: ${{ secrets.TASK_PROGRESS }}
+          envkey_UPLOAD_UPDATE: ${{secrets.UPLOAD_UPDATE}}
           directory: ./daita
           file_name: .env
           fail_on_empty: true
