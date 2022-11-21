@@ -1,8 +1,6 @@
 import os
-import sys
 import requests
 import time
-from tqdm import tqdm
 from datetime import timedelta
 from daita.footer import footer
 from timeit import default_timer as timer

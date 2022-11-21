@@ -123,7 +123,7 @@ def checkExistenceFile(filenames, daita_token):
         if it["filename"] in fullfile:
             del fullfile[it["filename"]]
 
-    for k, v in fullfile.items():
+    for v in fullfile.items():
         newFileNotExist.append(v)
     return newFileNotExist
 

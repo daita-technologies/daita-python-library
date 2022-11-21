@@ -16,7 +16,7 @@ class exception_handler:
         try:
             self.function()
         except Exception as e:
-            print(f"Error Message: {str(e)}")
+            print(f"Error message: {str(e)}")
             footer()
 
     def handler(self, sig, frame):

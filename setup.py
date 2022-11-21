@@ -40,7 +40,7 @@ classifiers = [
 ]
 
 python_requires = ">=3.8"
-install_requires = ["python-dotenv", "requests", "tqdm", "urllib3==1.26.2"]
+install_requires = ["python-dotenv", "requests", "tqdm"]
 
 setup(
     name=name,

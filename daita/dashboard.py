@@ -1,4 +1,3 @@
-import os
 import requests
 import time
 from os import system, name
@@ -20,7 +19,7 @@ def validCompressfile(filename):
 
 def listImageFile(dir):
     filenames = []
-    for root, subFolder, files in os.walk(dir):
+    for root, files in os.walk(dir):
         for item in files:
             if validFileImage(item):
                 filenames.append(os.path.join(root, item))
