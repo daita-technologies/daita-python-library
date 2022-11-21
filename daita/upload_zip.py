@@ -31,7 +31,7 @@ def upload_compress_file(filename, daita_token):
 
     respJson = resp.json()
     if respJson["error"] != False:
-        print("failed Create Presign Url: {}".format(respJson["message"]))
+        print("Failed to create a presigned URL: {}".format(respJson["message"]))
         footer()
 
     preSignUrlResult = respJson["data"]
