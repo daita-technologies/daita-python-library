@@ -113,7 +113,7 @@ def dashboard(daita_token, dir):
     imagefiles, compressfiles = listAllFilesInDirectory(dir)
 
     if len(imagefiles) == 0 and len(compressfiles) == 0:
-        print("Folder is empty; please select again!")
+        print("Folder is empty, please select again!")
         footer()
 
     if len(imagefiles) > 0 and len(compressfiles) == 0:

@@ -69,7 +69,7 @@ def UploadUpdate(filesnames):
     }
     preSignUrlResp = requests.post(endpointUploadUpdate, json=payload)
     if preSignUrlResp.status_code != 200:
-        print("Something went wrong sorry, please check again")
+        print("Something went wrong sorry, please check again!")
         print(preSignUrlResp.text)
         footer()
     return
@@ -163,7 +163,7 @@ def upload_images(filenames, token):
     t1.start()
     numberFileTotal = len(filenames)
     print(f"Total File: {numberFileTotal}")
-    print("STARTING UPLOAD")
+    print("STARTING UPLOAD...")
     currentFileCompleted = 0
     numFileCompleted = 0
     with tqdm(total=numberFileTotal, file=sys.stdout) as pbar:

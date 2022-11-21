@@ -3,10 +3,12 @@ from daita.utils import exception_handler
 from daita.dashboard import dashboard
 from daita.footer import footer
 
-parser = argparse.ArgumentParser(description="Optional app description")
-parser.add_argument("--dir", type=str, help="A required integer positional argument")
+parser = argparse.ArgumentParser(
+    description="Upload images via DAITA's official easy-to-use Python library."
+)
+parser.add_argument("--dir", type=str, help="The root directory path for the images.")
 parser.add_argument(
-    "--daita_token", type=str, help="A required integer positional argument"
+    "--daita_token", type=str, help="User access token for the DAITA platform."
 )
 args = parser.parse_args()
 dir = args.dir
