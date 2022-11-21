@@ -1,17 +1,40 @@
 import os
+import sys
 import requests
+import time
+from tqdm import tqdm
+from datetime import timedelta
 from daita.footer import footer
+from timeit import default_timer as timer
 
-endpointCreatePresignUrlSinglefile = os.environ["CREATE_PRESIGN_SIGNLE_URL"]
-endpointUploadCompressfile = os.environ["UPLOAD_COMPRESS_FILE"]
+endpointCreatePresignUrlSinglefile = os.environ["CREATE_PRESIGNED_SINGLE_URL"]
+endpointUploadCompressfile = os.environ["UPLOAD_COMPRESSED_FILE"]
+endpointTaskProgress = os.environ["TASK_PROGRESS"]
+
+
+def get_task(id_token, task_id):
+    responseTaskProgress = requests.get(
+        endpointTaskProgress, params={"id_token": id_token, "task_id": task_id}
+    )
+    return responseTaskProgress
 
 
 def upload_compress_file(filename, daita_token):
     resp = requests.post(
         endpointCreatePresignUrlSinglefile,
-        json={"filename": os.path.basename(filename), "daita_token": daita_token},
+        json={
+            "filename": os.path.basename(filename),
+            "daita_token": daita_token,
+            "is_zip": True,
+        },
     )
-    preSignUrlResult = resp.json()["data"]
+
+    respJson = resp.json()
+    if respJson["error"] != False:
+        print("failed Create Presign Url: {}".format(respJson["message"]))
+        footer()
+
+    preSignUrlResult = respJson["data"]
     s3_uri = preSignUrlResult["s3_uri"]
     files = {"file": open(filename, "rb")}
     requests.post(
@@ -19,13 +42,41 @@ def upload_compress_file(filename, daita_token):
         data=preSignUrlResult["presign_url"]["fields"],
         files=files,
     )
+
     responseTask = requests.post(
         endpointUploadCompressfile, json={"s3": s3_uri, "daita_token": daita_token}
     )
     data = responseTask.json()
-    task_id = data["data"]["data"]["task_id"]
     print(data["message"])
-    print(f"Check task id {task_id} on https://dev.daita.tech/my-tasks")
+    data = data["data"]["data"]
+    task_id = data["task_id"]
+    id_token = data["id_token"]
+
+    print(f"Check your task ID {task_id} on https://app.daita.tech/my-tasks.")
+
+    start = timer()
+    while True:
+        task = get_task(id_token, task_id)
+        taskJson = task.json()
+        jsonData = taskJson["data"]
+        message = taskJson["message"]
+        if taskJson["error"] != False:
+            print(message)
+            footer()
+        end = timer()
+        currentStatus = "Status: {st}, Time: {ti}".format(
+            st=jsonData["status"], ti=timedelta(seconds=end - start)
+        )
+        print(currentStatus.ljust(os.get_terminal_size().columns - 1), end="\r")
+        if jsonData["status"] == "ERROR":
+            print(
+                "Your task is currently broken, please check https://app.daita.tech/my-tasks."
+            )
+            footer()
+        elif jsonData["status"] == "FINISH":
+            break
+        time.sleep(1)
+    footer()
 
 
 def listCompressFiles(files):
