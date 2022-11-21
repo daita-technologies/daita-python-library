@@ -131,7 +131,7 @@ def checkExistenceFile(filenames, daita_token):
 def check_size_image(filenames):
     oldlen = len(filenames)
     newArr = list(
-        filter(lambda x: int(os.path.getsize(x) / (1024 ** 2)) <= 5, filenames)
+        filter(lambda x: int(os.path.getsize(x) / (1024**2)) <= 5, filenames)
     )
     if oldlen != len(newArr):
         print("Some files are larger than 5MB!")
