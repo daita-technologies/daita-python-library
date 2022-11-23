@@ -1,5 +1,5 @@
 import os
-from setuptools import setup, find_packages
+from setuptools import setup
 
 import daita
 
@@ -34,13 +34,15 @@ classifiers = [
     "Development Status :: 1 - Planning",
     "License :: OSI Approved :: MIT License",
     "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
 ]
 
 python_requires = ">=3.8"
-install_requires = ["tqdm", "requests", "python-dotenv"]
+install_requires = ["python-dotenv", "requests", "tqdm", "urllib3==1.26.2"]
 
 setup(
     name=name,
@@ -58,5 +60,5 @@ setup(
     classifiers=classifiers,
     python_requires=python_requires,
     project_urls=project_urls,
-    package_data={"daita": ["*", ".env.development"]},
+    package_data={"daita": ["*", ".env"]},
 )

@@ -1,5 +1,4 @@
 import os
-import glob
 import time
 import requests
 import hashlib
@@ -8,13 +7,13 @@ import queue
 import threading
 from tqdm import tqdm
 from daita.footer import footer
+from daita.utils import retry_handler
 from itertools import chain, islice
 
 batch_size = 10
-###### the endpoint for dev enviroment#######################################################################################
-endpointPresignURL = os.environ["PRESIGN_URL"]
-endpointCheckExistenceFile = os.environ["CHECK_EXISTENCE_FILE"]
-#############################################################################################################################
+endpointPresignURL = os.environ["CREATE_PRESIGNED_SINGLE_URL"]
+endpointCheckExistenceFile = os.environ["CHECK_FILE_EXISTENCE"]
+endpointUploadUpdate = os.environ["UPLOAD_UPDATE"]
 
 daita_token = None
 
@@ -25,8 +24,28 @@ def batcher(iterable, size):
         yield list(chain([first], islice(iterator, size - 1)))
 
 
-def getPresignUrl(filesnames):
-    filenamesDict = {os.path.basename(it): it for it in filesnames}
+@retry_handler(max_retry=10, sleep_time=1)
+def put_image_S3(filename):
+    resp = requests.post(
+        endpointPresignURL,
+        json={
+            "filename": os.path.basename(filename),
+            "daita_token": daita_token,
+            "is_zip": False,
+        },
+    )
+    preSignUrlResult = resp.json()["data"]
+    files = {"file": open(filename, "rb")}
+    requests.post(
+        preSignUrlResult["presign_url"]["url"],
+        data=preSignUrlResult["presign_url"]["fields"],
+        files=files,
+    )
+    time.sleep(0.5)
+    return
+
+
+def UploadUpdate(filesnames):
     filenamesList = []
     ls_object_info = []
     for it in filesnames:
@@ -48,22 +67,12 @@ def getPresignUrl(filesnames):
         "ls_object_info": ls_object_info,
         "daita_token": daita_token,
     }
-    preSignUrlResp = requests.post(endpointPresignURL, json=payload)
+    preSignUrlResp = requests.post(endpointUploadUpdate, json=payload)
     if preSignUrlResp.status_code != 200:
-        print("Something went wrong sorry, please check again")
+        print("Something went wrong sorry, please check again!")
         print(preSignUrlResp.text)
         footer()
-    if preSignUrlResp.json()["error"] == True:
-        print("Something went wrong sorry, please check again")
-        print(preSignUrlResp.json()["message"])
-        footer()
-
-    preSignUrlResult = preSignUrlResp.json()["data"]
-    for k, v in filenamesDict.items():
-        files = {"file": open(v, "rb")}
-        requests.post(
-            preSignUrlResult[k]["url"], data=preSignUrlResult[k]["fields"], files=files
-        )
+    return
 
 
 def generator(filenames):
@@ -79,7 +88,15 @@ class ThreadWorker(threading.Thread):
     def run(self):
         while True:
             filenames = self.queue.get()
-            getPresignUrl(filesnames=filenames)
+            try:
+                for it in filenames:
+                    put_image_S3(filename=it)
+            except Exception as e:
+                print("Debug: {}".format(e))
+                return
+
+            UploadUpdate(filesnames=filenames)
+
             self.updateQueue.put(len(filenames))
             self.queue.task_done()
 
@@ -106,7 +123,7 @@ def checkExistenceFile(filenames, daita_token):
         if it["filename"] in fullfile:
             del fullfile[it["filename"]]
 
-    for k, v in fullfile.items():
+    for v in fullfile.items():
         newFileNotExist.append(v)
     return newFileNotExist
 
@@ -130,7 +147,7 @@ def upload_images(filenames, token):
     for batch in batches:
         workerQueue.put(batch)
 
-    for _ in range(5):
+    for _ in range(10):
         t = ThreadWorker(queue=workerQueue, updateQueue=updateProcessbarQueue)
         t.setDaemon(True)
         t.start()
@@ -144,10 +161,9 @@ def upload_images(filenames, token):
     t1 = threading.Thread(target=listen, args=(updateProcessbarQueue,))
     t1.daemon = True
     t1.start()
-    workerQueue.join()
     numberFileTotal = len(filenames)
     print(f"Total File: {numberFileTotal}")
-    print("STARTING UPLOAD")
+    print("STARTING UPLOAD...")
     currentFileCompleted = 0
     numFileCompleted = 0
     with tqdm(total=numberFileTotal, file=sys.stdout) as pbar:
@@ -159,6 +175,7 @@ def upload_images(filenames, token):
             if currentFileCompleted == numberFileTotal:
                 break
     print("COMPLETED")
+    workerQueue.join()
 
 
 def dashboardImageFiles(filenames, token):

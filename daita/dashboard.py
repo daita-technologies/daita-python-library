@@ -1,5 +1,4 @@
 import os
-import glob
 import requests
 import time
 from os import system, name
@@ -21,7 +20,7 @@ def validCompressfile(filename):
 
 def listImageFile(dir):
     filenames = []
-    for root, subFolder, files in os.walk(dir):
+    for root, files in os.walk(dir):
         for item in files:
             if validFileImage(item):
                 filenames.append(os.path.join(root, item))
@@ -42,8 +41,7 @@ def checkDaitaToken(daita_token):
     response = requests.get(checkDaitaTokenEndpoint, params=params)
     data = response.json()
     if data["error"] == True:
-        print(data["message"])
-        os._exit(1)
+        Exception("Failed checkDaitaToken: {}".format(data["message"]))
 
 
 def listAllFilesInDirectory(dir):
@@ -106,12 +104,16 @@ def dashboard(daita_token, dir):
 
     # check input directory
     if not os.path.isdir(dir):
+        path = dir
+        if validCompressfile(path):
+            dashboardCompressFiles([path], daita_token)
         print("Please input your directory path; try it again!")
         footer()
+
     imagefiles, compressfiles = listAllFilesInDirectory(dir)
 
     if len(imagefiles) == 0 and len(compressfiles) == 0:
-        print("Folder is empty; please select again!")
+        print("Folder is empty, please select again!")
         footer()
 
     if len(imagefiles) > 0 and len(compressfiles) == 0:
