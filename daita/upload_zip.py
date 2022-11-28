@@ -7,7 +7,7 @@ from timeit import default_timer as timer
 
 endpointCreatePresignUrlSinglefile = os.environ["CREATE_PRESIGNED_SINGLE_URL"]
 endpointUploadCompressfile = os.environ["UPLOAD_COMPRESSED_FILE"]
-endpointTaskProgress = os.environ["TASK_PROGRESS"]
+endpointTaskProgress = os.environ["UPLOAD_TASK_PROGRESS"]
 
 
 def get_task(id_token, task_id):
